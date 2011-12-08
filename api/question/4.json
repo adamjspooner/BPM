@@ -1,0 +1,19 @@
+[{ "id": 4,
+  "answered": false,
+  "text": "Have you smoked a cigarette in the last 6 months?",
+  "text": [
+    { "text": "Yes",
+      "explanations": [
+        "Mmmm... sweet nicotine.",
+        "It's a bad habit, but I still enjoy it.",
+        "I'm trying to quit."
+      ]
+    },
+    { "text": "No",
+      "explanations": [
+        "Smoking is gross.",
+        "It's not for me, but I don't care if others do it."
+      ]
+    }
+  ]
+}]

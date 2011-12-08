@@ -1,0 +1,86 @@
+[
+  { "id": 1,
+    "answered": false,
+    "text": "Where are you, career-wise?",
+    "answers": [
+      { "text": "Working",
+        "explanations": [
+          "I'm staring my own company.",
+          "I'm freelancing.",
+          "I'm consulting."
+        ]
+      },
+      { "text": "Studying",
+        "explanations": [
+          "I'm an undergraduate.",
+          "I'm persuing my master's degree.",
+          "I'm in high school."
+        ]
+      },
+      { "text": "Not working",
+        "explanations": [
+          "I'm a bum.",
+          "I'm between jobs.",
+          "I live in my parent's basement."
+        ]
+      }
+    ]
+  },
+  { "id": 2,
+    "answered": false,
+    "text": "Are some human lives worth more than others?",
+    "answers": [
+      { "text": "Yes",
+        "explanations": [
+          "I think certain people are just more important to society than others.",
+          "When it comes down to it, I would choose my family and loved ones over others.",
+          "This is selfish of me, but my own life is worth more to me than others."
+        ]
+      },
+      { "text": "No",
+        "explanations": [
+          "I'm an undergraduate.",
+          "I'm persuing my master's degree.",
+          "I'm in high school."
+        ]
+      }
+    ]
+  },
+  { "id": 3,
+    "answered": false,
+    "text": "Are you willing to meet someone from the internet in person?",
+    "answers": [
+      { "text": "Yes",
+        "explanations": [
+          "Totally willing!",
+          "Hesitant, but I'd consider it."
+        ]
+      },
+      { "text": "No",
+        "explanations": [
+          "I'm not interested in meeting in person.",
+          "No way in hell."
+        ]
+      }
+    ]
+  },
+  { "id": 4,
+    "answered": false,
+    "text": "Have you smoked a cigarette in the last 6 months?",
+    "text": [
+      { "text": "Yes",
+        "explanations": [
+          "Mmmm... sweet nicotine.",
+          "It's a bad habit, but I still enjoy it.",
+          "I'm trying to quit."
+        ]
+      },
+      { "text": "No",
+        "explanations": [
+          "Smoking is gross.",
+          "It's not for me, but I don't care if others do it."
+        ]
+      }
+    ]
+  }
+]

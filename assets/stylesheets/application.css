@@ -1,0 +1,360 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+html {
+  background: #DDD;
+  font-family: sans-serif; }
+
+body {
+  background: white;
+  width: 760px; }
+  body > header {
+    display: block;
+    background: #999;
+    padding: 10px; }
+    body > header:after {
+      content: ".";
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden; }
+    .ie body > header {
+      zoom: 1; }
+    body > header a {
+      color: #FFF; }
+    body > header h1 {
+      float: left; }
+    body > header nav {
+      float: right; }
+      body > header nav li {
+        display: inline-block; }
+
+#user_info {
+  display: block;
+  background: #EEE;
+  padding: 10px 0; }
+  #user_info:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
+  .ie #user_info {
+    zoom: 1; }
+  #user_info #user_image {
+    display: block;
+    background: #DDD;
+    position: relative; }
+    #user_info #user_image:after {
+      content: ".";
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden; }
+    .ie #user_info #user_image {
+      zoom: 1; }
+    #user_info #user_image img {
+      margin-right: 50px; }
+    #user_info #user_image ul li {
+      position: absolute;
+      right: 15px;
+      top: 15px; }
+      #user_info #user_image ul li:last-child {
+        bottom: 15px;
+        top: auto; }
+  #user_info #user_details, #user_info #user_profile_completion {
+    width: 44%; }
+  #user_info #user_details {
+    float: left;
+    margin: 0 0 20px 20px; }
+    #user_info #user_details h1 {
+      border-bottom: 1px solid #DDD;
+      font-size: 28px;
+      margin-bottom: 10px;
+      padding-bottom: 10px; }
+      #user_info #user_details h1 a {
+        float: right; }
+    #user_info #user_details #user_bio {
+      font-size: 12px; }
+  #user_info #user_profile_completion {
+    float: right;
+    margin: 0 20px 20px 0; }
+    #user_info #user_profile_completion h2 {
+      font-size: 12px;
+      font-weight: bold; }
+  #user_info #user_next_steps {
+    clear: both;
+    font-style: italic;
+    margin: 0 20px;
+    padding: 10px;
+    text-align: center; }
+
+#main_content {
+  display: block;
+  clear: both; }
+  #main_content:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
+  .ie #main_content {
+    zoom: 1; }
+  #main_content #search {
+    background: #EEE; }
+    #main_content #search form {
+      background: #999999;
+      padding: 10px; }
+      #main_content #search form label {
+        display: none; }
+      #main_content #search form input {
+        border: 0;
+        font-size: 16px;
+        padding: 5px 0;
+        width: 100%; }
+    #main_content #search #people_of_interest {
+      padding: 0 20px 10px; }
+      #main_content #search #people_of_interest dt a {
+        background: #999999;
+        color: white;
+        display: block;
+        font-weight: bold;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none; }
+      #main_content #search #people_of_interest dd {
+        display: none;
+        position: relative;
+        z-index: 2; }
+        #main_content #search #people_of_interest dd ul {
+          background: lightblue;
+          position: absolute;
+          width: 100%; }
+          #main_content #search #people_of_interest dd ul li {
+            border-bottom: 1px solid #FFF; }
+            #main_content #search #people_of_interest dd ul li:last-child {
+              border: 0; }
+          #main_content #search #people_of_interest dd ul a {
+            display: block;
+            font-size: 12px;
+            padding: 10px; }
+    #main_content #search #search_results {
+      border-top: 1px solid #DDD; }
+      #main_content #search #search_results li {
+        display: block;
+        border-bottom: 1px solid #DDD;
+        border-top: 1px solid #FFF;
+        font-size: 14px;
+        padding: 10px 45px 10px 10px;
+        position: relative; }
+        #main_content #search #search_results li:after {
+          content: ".";
+          display: block;
+          height: 0;
+          clear: both;
+          visibility: hidden; }
+        .ie #main_content #search #search_results li {
+          zoom: 1; }
+        #main_content #search #search_results li .user_image {
+          float: left;
+          display: block;
+          margin-right: 10px; }
+        #main_content #search #search_results li .degrees {
+          background: #DDD;
+          font-size: 12px;
+          padding: 2px 5px;
+          position: absolute;
+          right: 10px;
+          text-align: center;
+          text-decoration: none;
+          top: 23px; }
+  #main_content #questions .question {
+    background: #EEE;
+    border: 1px solid #DDD;
+    margin: 20px; }
+    #main_content #questions .question > h3 {
+      font-size: 21px;
+      padding: 20px 20px 10px; }
+    #main_content #questions .question > .answers {
+      display: block;
+      padding: 0 20px; }
+      #main_content #questions .question > .answers:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden; }
+      .ie #main_content #questions .question > .answers {
+        zoom: 1; }
+      #main_content #questions .question > .answers li, #main_content #questions .question > .answers .button {
+        float: left; }
+      #main_content #questions .question > .answers li {
+        margin-right: 10px; }
+      #main_content #questions .question > .answers .button {
+        background: #FFF;
+        border: 1px solid #DDD;
+        font-weight: bold;
+        padding: 5px 10px; }
+        #main_content #questions .question > .answers .button.selected {
+          background: #DDD;
+          border-bottom: 0;
+          color: #FFF;
+          padding-bottom: 15px; }
+    #main_content #questions .question > .explanations {
+      background: #DDD;
+      display: none;
+      margin-bottom: -20px;
+      padding: 10px 0; }
+      #main_content #questions .question > .explanations li {
+        margin: 0;
+        position: relative; }
+      #main_content #questions .question > .explanations a:first-child, #main_content #questions .question > .explanations input {
+        -khtml-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        background: #FFF;
+        display: block;
+        font-size: 12px;
+        margin: 0 10px 10px;
+        padding: 10px; }
+      #main_content #questions .question > .explanations a:first-child {
+        padding-right: 40px;
+        text-decoration: none; }
+      #main_content #questions .question > .explanations input {
+        border: 1px solid #CCC;
+        margin-bottom: 0;
+        width: 397px; }
+      #main_content #questions .question > .explanations .button {
+        display: none;
+        position: absolute;
+        right: 10px; }
+    #main_content #questions .question .question_actions {
+      display: block;
+      background: #CCC;
+      font-size: 14px;
+      margin-top: 20px;
+      padding: 10px 20px;
+      position: relative; }
+      #main_content #questions .question .question_actions:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden; }
+      .ie #main_content #questions .question .question_actions {
+        zoom: 1; }
+      #main_content #questions .question .question_actions > .button {
+        background: #DDD;
+        float: right;
+        font-weight: bold;
+        padding: 5px 10px; }
+      #main_content #questions .question .question_actions dt {
+        float: left;
+        padding: 5px 0; }
+      #main_content #questions .question .question_actions dd {
+        background: #DDD;
+        display: none;
+        left: 0;
+        position: absolute;
+        top: 45px; }
+        #main_content #questions .question .question_actions dd ul {
+          height: 200px;
+          overflow-x: hidden;
+          overflow-y: scroll;
+          margin: 0 20px 20px; }
+          #main_content #questions .question .question_actions dd ul li {
+            display: block;
+            background: #FFF;
+            margin-top: 20px;
+            padding: 10px; }
+            #main_content #questions .question .question_actions dd ul li:after {
+              content: ".";
+              display: block;
+              height: 0;
+              clear: both;
+              visibility: hidden; }
+            .ie #main_content #questions .question .question_actions dd ul li {
+              zoom: 1; }
+            #main_content #questions .question .question_actions dd ul li .user_image {
+              display: block;
+              float: left;
+              margin-right: 10px; }
+
+em {
+  font-style: italic; }
+
+strong {
+  font-weight: bold; }
+
+.button {
+  display: block;
+  text-decoration: none; }
+
+.bg_light {
+  background: #DDD; }
+
+.column {
+  float: left; }
+
+.round {
+  -khtml-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px; }
+
+.narrow {
+  width: 280px; }
+
+.wide {
+  width: 480px; }
+
+::-webkit-input-placeholder {
+  font-style: italic; }
+
+:-moz-placeholder {
+  font-style: italic; }

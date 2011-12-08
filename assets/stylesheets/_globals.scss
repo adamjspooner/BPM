@@ -1,0 +1,31 @@
+
+@mixin border-radius($radius) {
+  -khtml-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-shadow($arguments) {
+  -moz-box-shadow: $arguments;
+  -webkit-box-shadow: $arguments;
+  box-shadow: $arguments;
+}
+
+@mixin clearfix {
+  display: block;
+  
+  &:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+  
+  .ie & { zoom: 1; }
+}
+
+@mixin placeholder {
+  font-style: italic;
+}

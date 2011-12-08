@@ -1,0 +1,27 @@
+[{ "id": 1,
+  "answered": false,
+  "text": "Where are you, career-wise?",
+  "answers": [
+    { "text": "Working",
+      "explanations": [
+        "I'm staring my own company.",
+        "I'm freelancing.",
+        "I'm consulting."
+      ]
+    },
+    { "text": "Studying",
+      "explanations": [
+        "I'm an undergraduate.",
+        "I'm persuing my master's degree.",
+        "I'm in high school."
+      ]
+    },
+    { "text": "Not working",
+      "explanations": [
+        "I'm a bum.",
+        "I'm between jobs.",
+        "I live in my parent's basement."
+      ]
+    }
+  ]
+}]

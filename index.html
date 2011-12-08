@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>1PM</title>
+  
+  <link rel="stylesheet" href="/assets/stylesheets/application.css" type="text/css">
+  
+  <script type="text/template" id="questions-template">
+    <div id="questions"></div>
+  </script>
+  
+  <script type="text/template" id="question-template">
+    <h3><%= text %></h3>
+    <ul class="answers">
+      <% _.each(answers, function(answer, index) { %>
+        <li><a href="#question_<%= id %>_explanations_<%= index + 1 %>" class="button"><%= answer.text %></a></li>
+      <% }); %>
+    </ul>
+    
+    <% _.each(answers, function(answer, index) { %>
+    <ul id="question_<%= id %>_explanations_<%= index + 1 %>" class="explanations">
+      <% _.each(answer.explanations, function(explanation, index) { %>
+        <li><a href="#explanation_<%= index + 1 %>"><%= explanation %></a></li>
+      <% }); %>
+      <li><input name="question_<%= id %>_answer_<%= index + 1 %>_explanation" placeholder="Enter your own explanation"></li>
+    </ul>
+    <% }); %>
+    
+    <div class="question_actions">
+      <a href="#skip_<%= id %>" class="button skip">Skip</a>
+    </div>
+  </script>
+</head>
+<body>
+  <header>
+    <h1><a href="#">1PageMashup</a></h1>
+    
+    <nav>
+      <ul>
+        <li><a href="#">Pennifer L.</a></li>
+        <li><a href="#" class="home icon">Home</a></li>
+        <li><a href="#" class="favorites icon">Favorites</a></li>
+        <li><a href="#" class="converstations icon">Conversations</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <section id="user_info">
+    
+    <div id="user_image" class="column narrow">
+      <img src="/assets/images/user.png" alt="Pennifer L.">
+      <ul>
+        <li><a href="#" class="edit icon button">Edit</a></li>
+        <li><a href="#" class="delete icon button">Delete</a></li>
+      </ul>
+    </div>
+    
+    <div class="column wide">
+      <div id="user_details">
+        <h1>Pennifer L. <a href="" class="edit icon button">Edit</a></h1>
+        <ul id="user_bio">
+          <li class="employment">Chief Engineer at Dow Chemical</li>
+          <li class="location">Lives in New York, NY</li>
+          <li class="status">Single</li>
+          <li class="birthday">Born on July 30, 1977</li>
+        </ul>
+      </div>
+      
+      <div id="user_profile_completion">
+        <h2><em>20%</em> Profile Completion:</h2>
+        <p id="user_profile_completion_graph">20%</p>
+        
+        <h2>You've Answered:</h2>
+        <dl id="user_questions_answered" class="bg_light round">
+          <dt>Questions</dt>
+          <dd>0000</dd>
+        </dl>
+      </div>
+      
+      <p id="user_next_steps" class="bg_light round">Answer <em>15 more questions</em> for 25% profile completion</p>
+    </div>
+    
+  </section>
+  
+  <section id="main_content">
+    
+    <div id="search" class="column narrow">
+      <form action="" method="get" accept-charset="utf-8">
+        <p><label for="search_keywords">Find people by Name, Location, Keywords</label> <input type="text" name="search_keywords" id="search_keywords" placeholder="Find people by Name, Location, Keywords"></p>
+      </form>
+      
+      <dl id="people_of_interest">
+        <dt><a href="#people_of_interest" class="disclosure fade">People of interest</a></dt>
+        <dd>
+          <ul>
+            <li><a href="#">People of interest</a></li>
+            <li><a href="#">People likely to be your friends</a></li>
+            <li><a href="#">People likely to be your enemies</a></li>
+            <li><a href="#">People you're likely to date</a></li>
+            <li><a href="#">Your favorites</a></li>
+            <li><a href="#">Recently messaged</a></li>
+          </ul>
+        </dd>
+      </dl>
+      
+      <ul id="search_results">
+        <li>
+          <a href="#" class="user_image"><img src="/assets/images/user_small.png" alt="Niel P."></a>
+          <p><strong><a href="#">Niel P.</a></strong> Answered <strong>YES</strong> to: <em class="question">Are some human lives worth more than others?</em></p>
+          <a href="#" class="degrees">1°</a>
+        </li>
+        
+        <li>
+          <a href="#" class="user_image"><img src="/assets/images/user_small.png" alt="Sarah K."></a>
+          <p><strong><a href="#">Sarah K.</a></strong> Answered <strong>Neither</strong> to: <em class="question">Are some human lives worth more than others?</em></p>
+          <a href="#" class="degrees">1°</a>
+        </li>
+        
+        <li>
+          <a href="#" class="user_image"><img src="/assets/images/user_small.png" alt="Romina P."></a>
+          <p><strong><a href="#">Romina P.</a></strong> Joined, 2 days ago.</p>
+          <a href="#" class="degrees">1°</a>
+        </li>
+        
+        <li>
+          <a href="#" class="user_image"><img src="/assets/images/user_small.png" alt="Alex Z."></a>
+          <p><strong><a href="#">Alex Z.</a></strong> Answered <strong>YES</strong> to: <em class="question">Have you had cosmetic surgery?</em></p>
+          <a href="#" class="degrees">2°</a>
+        </li>
+        
+        <li>
+          <a href="#" class="user_image"><img src="/assets/images/user_small.png" alt="Michael K."></a>
+          <p><strong><a href="#">Michael K.</a></strong> Rated your answer: <strong>AWESOME</strong></p>
+          <a href="#" class="degrees">3°</a>
+        </li>
+        
+        <li>
+          <a href="#" class="user_image"><img src="/assets/images/user_small.png" alt="Max P."></a>
+          <p><strong><a href="#">Max P.</a></strong> Rated your answer: <strong>LAME</strong></p>
+          <a href="#" class="degrees">3°</a>
+        </li>
+      </ul>
+    </div>
+    
+    <div id="questions" class="column wide">
+    </div>
+    
+  </section>
+  
+  <script src="/assets/javascripts/libraries/jquery-1.7.1.min.js"></script>
+  <script src="/assets/javascripts/libraries/json2.min.js"></script>
+  <script src="/assets/javascripts/libraries/underscore-1.2.3.min.js"></script>
+  <script src="/assets/javascripts/libraries/backbone-0.5.3.min.js"></script>
+  <script src="/assets/javascripts/application.js"></script>
+</body>
+</html>

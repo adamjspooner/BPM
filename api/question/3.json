@@ -1,0 +1,18 @@
+[{ "id": 3,
+  "answered": false,
+  "text": "Are you willing to meet someone from the internet in person?",
+  "answers": [
+    { "text": "Yes",
+      "explanations": [
+        "Totally willing!",
+        "Hesitant, but I'd consider it."
+      ]
+    },
+    { "text": "No",
+      "explanations": [
+        "I'm not interested in meeting in person.",
+        "No way in hell."
+      ]
+    }
+  ]
+}]

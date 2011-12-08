@@ -1,0 +1,20 @@
+[{ "id": 2,
+  "answered": false,
+  "text": "Are some human lives worth more than others?",
+  "answers": [
+    { "text": "Yes",
+      "explanations": [
+        "I think certain people are just more important to society than others.",
+        "When it comes down to it, I would choose my family and loved ones over others.",
+        "This is selfish of me, but my own life is worth more to me than others."
+      ]
+    },
+    { "text": "No",
+      "explanations": [
+        "I'm an undergraduate.",
+        "I'm persuing my master's degree.",
+        "I'm in high school."
+      ]
+    }
+  ]
+}]
