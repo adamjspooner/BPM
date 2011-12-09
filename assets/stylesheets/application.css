@@ -216,9 +216,28 @@ body {
     background: #EEE;
     border: 1px solid #DDD;
     margin: 20px; }
+    #main_content #questions .question.skipped {
+      opacity: .25; }
+      #main_content #questions .question.skipped:hover {
+        opacity: 1; }
     #main_content #questions .question > h3 {
       font-size: 21px;
       padding: 20px 20px 10px; }
+    #main_content #questions .question > .answer {
+      display: none;
+      margin-top: 5px;
+      padding: 0 20px; }
+      #main_content #questions .question > .answer a {
+        background: #FFF;
+        color: #333;
+        display: inline-block;
+        font-weight: bold;
+        margin-right: 5px;
+        padding: 5px 9px;
+        text-decoration: none; }
+        #main_content #questions .question > .answer a:hover {
+          background: #EEE;
+          color: #000; }
     #main_content #questions .question > .answers {
       display: block;
       padding: 0 20px; }

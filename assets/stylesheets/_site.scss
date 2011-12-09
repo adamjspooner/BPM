@@ -193,6 +193,12 @@ body {
   
   #questions {
     .question {
+      &.skipped {
+        opacity: .25;
+        
+        &:hover { opacity: 1; }
+      }
+      
       background: #EEE;
       border: 1px solid #DDD;
       margin: 20px;
@@ -201,6 +207,27 @@ body {
         h3 {
           font-size: 21px;
           padding: 20px 20px 10px;
+        }
+        
+        .answer {
+          display: none;
+          margin-top: 5px;
+          padding: 0 20px;
+          
+          a {
+            background: #FFF;
+            color: #333;
+            display: inline-block;
+            font-weight: bold;
+            margin-right: 5px;
+            padding: 5px 9px;
+            text-decoration: none;
+            
+            &:hover {
+              background: #EEE;
+              color: #000;
+            }
+          }
         }
         
         .answers {

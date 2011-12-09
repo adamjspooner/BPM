@@ -32,16 +32,17 @@ jQuery ->
       'keyup .explanations input': 'answerQuestionWithCustomExplanation'
     
     render: =>
-      $(@el).attr('id', "question_#{@model.get('id') + 1}")
+      $(@el).attr('id', "question_#{@model.get('id')}")
       $(@el).append(@template(@model.toJSON()))
       @
     
     skip: (e) ->
-      console.log "skip: #{@model.toJSON()}"
-      
       e.preventDefault()
       pause = 250
       previous = @
+      question = $(@el)
+      currQuestionID = @model.get('id')
+      nextQuestionID = if currQuestionID is 4 then 1 else currQuestionID + 1
       
       # Damn handy
       # [classes...] = e.srcElement.className.split(' ')
@@ -50,8 +51,8 @@ jQuery ->
         skipped: true
       
       doIt = ->
-        $(@model).addClass('skipped')
-        previous.appendNewQuestion(previous.model.get('id') + 1)
+        question.addClass('skipped')
+        previous.appendNewQuestion nextQuestionID
       
       doIt()
       
@@ -70,14 +71,21 @@ jQuery ->
       # else
       #   doIt()
     
-    appendNewQuestion: (question_id) ->
-      question = new Question
-        id: question_id
+    newQuestion: (questionID, callback) ->
+      $.getJSON "#{API_URL}/question/#{questionID}.json", (data) ->
+          question = new Question data[0]
+          callback question
+    
+    appendNewQuestion: (questionID) ->
+      parent = $(@el).parent()
       
-      questionView = new QuestionView
-        model: question
-      
-      $(@el).parent().append(questionView.render().el)
+      # get a new question from the server
+      @newQuestion questionID, (question) ->
+        questionView = new QuestionView
+          model: question
+        
+        # append it to the parent container
+        parent.append questionView.render().el
     
     showExplanations: (e) ->
       e.preventDefault()
@@ -90,12 +98,17 @@ jQuery ->
         $link.addClass('selected')
         $(link.hash).slideDown()
       
+      # slideUp when the explanations are shown
+      if $link.hasClass('selected')
+        $(link.hash).slideUp pause, ->
+          $link.removeClass('selected')
+      
       # don't pause when an answer hasn't been selected
-      if previous.$('.selected').length is 0
+      else if previous.$('.selected').length is 0
         doIt()
       
       # othwerise, unless selecting the selected
-      else if ! $link.hasClass('.selected')
+      else if ! $link.hasClass('selected')
         # hide explanations, show appropriate afterwards
         previous.$('.explanations').slideUp pause, ->
           # make it feel fluid
@@ -107,30 +120,58 @@ jQuery ->
             
           , pause
     
+    reAnswerQuestion: (question) ->
+      question.addClass('reanswering')
+      question.find('.answer').hide()
+      question.find('.answers').show()
+    
+    updateQuestionWithAnswerAndExplanation: (question, answer, explanation) ->
+      answerWrapper = question.find('.answer')
+      questionID = question.attr('id')
+      currQuestionID = @model.get('id')
+      nextQuestionID = if currQuestionID is 4 then 1 else currQuestionID + 1
+      
+      question.removeClass('skipped')
+      answerWrapper.hide()
+      answerWrapper.empty()
+      
+      answerLink = $("<a href='##{questionID}'>#{answer}</a>").click (e) =>
+        e.preventDefault()
+        @reAnswerQuestion(question)
+      
+      answerWrapper.append(answerLink).append("#{explanation}")
+      
+      question.find('.explanations:visible').slideUp =>
+        question.find('.answers').hide()
+        question.find('.selected').removeClass('selected')
+        answerWrapper.show()
+        
+        if not question.hasClass('reanswering')
+          @appendNewQuestion(nextQuestionID)
+        else
+          question.removeClass('reanswering')
+    
     answerQuestion: (e) ->
-      console.log "answerQuestion: #{@model.toJSON()}"
-      
       e.preventDefault()
+      question = $(e.srcElement).parents('.question')
+      answer = question.find('.selected').html()
+      explanation = e.srcElement.innerHTML
       
-      # post answer to server with explanation
-      # set question to answered?
-      # get a new question from the server
-      # render the new question
-      # append it to the questions container
+      # send answer and explanation to the server
+      # update the interface after a successful post
+      @updateQuestionWithAnswerAndExplanation question, answer, explanation
     
     answerQuestionWithCustomExplanation: (e) ->
-      console.log "answerQuestionWithCustomExplanation: #{@model.toJSON()}"
-      
       e.preventDefault()
       
       if e.keyCode is 13
-        console.log 'pressed return'
-      
-      # post answer to server with custom explanation
-      # set question to answered?
-      # get a new question from the server
-      # render the new question
-      # append it to the questions container
+        question = $(e.srcElement).parents('.question')
+        answer = question.find('.selected').html()
+        explanation = e.srcElement.value
+        
+        # send answer and explanation to the server
+        # update the interface after a successful post
+        @updateQuestionWithAnswerAndExplanation question, answer, explanation
   
   class Questions extends Backbone.Collection
     model: Question
@@ -178,68 +219,20 @@ jQuery ->
     initialize: ->
       # questions = new Questions
       # questions.fetch()
-      # 
-      # @firstQuestion = questions.at(0)
-      
-      @question = new Question
     
     index: ->
-      questions = $('#questions')
-      
-      questionView = new QuestionView
-        model: @question
-      
-      questions.append(questionView.render().el)
+      # start with the first question
+      $.getJSON "#{API_URL}/question/1.json", (data) ->
+        @question = new Question data[0]
+        questionView = new QuestionView
+          model: @question
+        
+        questions = $('#questions')
+        
+        questions.empty()
+        questions.append(questionView.render().el)
   
+  # start the application
   questionsRouter = new QuestionsRouter
   Backbone.history.start
     pushState: true
-  
-  # question1 = new Question
-  #   id: 123
-  #   text: 'Where are you, career-wise?'
-  #   answers: [{
-  #     text: 'Working'
-  #     explanations: [
-  #       "I'm working for The Man.",
-  #       "I'm starting my own company.",
-  #       "I'm freelancing."
-  #     ]
-  #   }, {
-  #     text: 'Studying'
-  #     explanations: [
-  #       "I'm getting my bachelor's.",
-  #       "I'm working on my master's.",
-  #       "I'm in high school."
-  #     ]
-  #   }, {
-  #     text: 'Not working'
-  #     explanations: [
-  #       "I'm between jobs.",
-  #       "I'm living in my parent's basement playing WoW.",
-  #       "I'm a bum."
-  #     ]
-  #   }]
-  # 
-  # question2 = new Question
-  #   id: 124
-  #   text: 'Are some human lives worth more?'
-  #   answers: [{
-  #     text: 'Yes'
-  #     explanations: [
-  #       'I think certain people are just more important to society than others.',
-  #       'When it comes down to it, I would choose my family and loved ones over others.',
-  #       'This is selfish of me, but my own life is worth more to me than others.'
-  #     ]
-  #   }, {
-  #     text: 'No'
-  #     explanations: [
-  #       'Some explanation.',
-  #       'Another explanation.'
-  #     ]
-  #   }]
-  # 
-  # questionView = new QuestionView
-  #   model: question1
-  #   
-  # $('#questions').append(questionView.render().el)

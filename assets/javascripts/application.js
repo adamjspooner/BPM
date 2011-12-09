@@ -48,34 +48,44 @@
         'keyup .explanations input': 'answerQuestionWithCustomExplanation'
       };
       QuestionView.prototype.render = function() {
-        $(this.el).attr('id', "question_" + (this.model.get('id') + 1));
+        $(this.el).attr('id', "question_" + (this.model.get('id')));
         $(this.el).append(this.template(this.model.toJSON()));
         return this;
       };
       QuestionView.prototype.skip = function(e) {
-        var doIt, pause, previous;
-        console.log("skip: " + (this.model.toJSON()));
+        var currQuestionID, doIt, nextQuestionID, pause, previous, question;
         e.preventDefault();
         pause = 250;
         previous = this;
+        question = $(this.el);
+        currQuestionID = this.model.get('id');
+        nextQuestionID = currQuestionID === 4 ? 1 : currQuestionID + 1;
         this.model.set({
           skipped: true
         });
         doIt = function() {
-          $(this.model).addClass('skipped');
-          return previous.appendNewQuestion(previous.model.get('id') + 1);
+          question.addClass('skipped');
+          return previous.appendNewQuestion(nextQuestionID);
         };
         return doIt();
       };
-      QuestionView.prototype.appendNewQuestion = function(question_id) {
-        var question, questionView;
-        question = new Question({
-          id: question_id
+      QuestionView.prototype.newQuestion = function(questionID, callback) {
+        return $.getJSON("" + API_URL + "/question/" + questionID + ".json", function(data) {
+          var question;
+          question = new Question(data[0]);
+          return callback(question);
         });
-        questionView = new QuestionView({
-          model: question
+      };
+      QuestionView.prototype.appendNewQuestion = function(questionID) {
+        var parent;
+        parent = $(this.el).parent();
+        return this.newQuestion(questionID, function(question) {
+          var questionView;
+          questionView = new QuestionView({
+            model: question
+          });
+          return parent.append(questionView.render().el);
         });
-        return $(this.el).parent().append(questionView.render().el);
       };
       QuestionView.prototype.showExplanations = function(e) {
         var $link, doIt, link, pause, previous;
@@ -88,9 +98,13 @@
           $link.addClass('selected');
           return $(link.hash).slideDown();
         };
-        if (previous.$('.selected').length === 0) {
+        if ($link.hasClass('selected')) {
+          return $(link.hash).slideUp(pause, function() {
+            return $link.removeClass('selected');
+          });
+        } else if (previous.$('.selected').length === 0) {
           return doIt();
-        } else if (!$link.hasClass('.selected')) {
+        } else if (!$link.hasClass('selected')) {
           return previous.$('.explanations').slideUp(pause, function() {
             return setTimeout(function() {
               previous.$('.selected').removeClass('selected');
@@ -99,15 +113,52 @@
           });
         }
       };
+      QuestionView.prototype.reAnswerQuestion = function(question) {
+        question.addClass('reanswering');
+        question.find('.answer').hide();
+        return question.find('.answers').show();
+      };
+      QuestionView.prototype.updateQuestionWithAnswerAndExplanation = function(question, answer, explanation) {
+        var answerLink, answerWrapper, currQuestionID, nextQuestionID, questionID;
+        answerWrapper = question.find('.answer');
+        questionID = question.attr('id');
+        currQuestionID = this.model.get('id');
+        nextQuestionID = currQuestionID === 4 ? 1 : currQuestionID + 1;
+        question.removeClass('skipped');
+        answerWrapper.hide();
+        answerWrapper.empty();
+        answerLink = $("<a href='#" + questionID + "'>" + answer + "</a>").click(__bind(function(e) {
+          e.preventDefault();
+          return this.reAnswerQuestion(question);
+        }, this));
+        answerWrapper.append(answerLink).append("" + explanation);
+        return question.find('.explanations:visible').slideUp(__bind(function() {
+          question.find('.answers').hide();
+          question.find('.selected').removeClass('selected');
+          answerWrapper.show();
+          if (!question.hasClass('reanswering')) {
+            return this.appendNewQuestion(nextQuestionID);
+          } else {
+            return question.removeClass('reanswering');
+          }
+        }, this));
+      };
       QuestionView.prototype.answerQuestion = function(e) {
-        console.log("answerQuestion: " + (this.model.toJSON()));
-        return e.preventDefault();
+        var answer, explanation, question;
+        e.preventDefault();
+        question = $(e.srcElement).parents('.question');
+        answer = question.find('.selected').html();
+        explanation = e.srcElement.innerHTML;
+        return this.updateQuestionWithAnswerAndExplanation(question, answer, explanation);
       };
       QuestionView.prototype.answerQuestionWithCustomExplanation = function(e) {
-        console.log("answerQuestionWithCustomExplanation: " + (this.model.toJSON()));
+        var answer, explanation, question;
         e.preventDefault();
         if (e.keyCode === 13) {
-          return console.log('pressed return');
+          question = $(e.srcElement).parents('.question');
+          answer = question.find('.selected').html();
+          explanation = e.srcElement.value;
+          return this.updateQuestionWithAnswerAndExplanation(question, answer, explanation);
         }
       };
       return QuestionView;
@@ -129,16 +180,18 @@
       QuestionsRouter.prototype.routes = {
         '': 'index'
       };
-      QuestionsRouter.prototype.initialize = function() {
-        return this.question = new Question;
-      };
+      QuestionsRouter.prototype.initialize = function() {};
       QuestionsRouter.prototype.index = function() {
-        var questionView, questions;
-        questions = $('#questions');
-        questionView = new QuestionView({
-          model: this.question
+        return $.getJSON("" + API_URL + "/question/1.json", function(data) {
+          var questionView, questions;
+          this.question = new Question(data[0]);
+          questionView = new QuestionView({
+            model: this.question
+          });
+          questions = $('#questions');
+          questions.empty();
+          return questions.append(questionView.render().el);
         });
-        return questions.append(questionView.render().el);
       };
       return QuestionsRouter;
     })();
