@@ -1,7 +1,7 @@
 [{ "id": 4,
   "answered": false,
   "text": "Have you smoked a cigarette in the last 6 months?",
-  "text": [
+  "answers": [
     { "text": "Yes",
       "explanations": [
         "Mmmm... sweet nicotine.",
