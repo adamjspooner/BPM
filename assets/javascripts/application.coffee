@@ -53,22 +53,24 @@ jQuery ->
         $(@model).addClass('skipped')
         previous.appendNewQuestion(previous.model.get('id') + 1)
       
-      # hide explanations if they're shown
-      if previous.$('.explanations').length is 0
-        previous.$('.explanations').slideUp ->
-          # and remove the selected class from the button
-          previous.$('.selected').removeClass('selected')
-          
-          # skip and show new question
-          doIt()
+      doIt()
       
-      # otherwise, show the new question
-      else
-        doIt()
+      # TODO: find double-posting bug in the following
+      
+      # hide explanations if they're shown
+      # if previous.$('.explanations:visible').length isnt 0
+      #   previous.$('.explanations').slideUp ->
+      #     # and remove the selected class from the button
+      #     previous.$('.selected').removeClass('selected')
+      #     
+      #     # skip and show new question
+      #     doIt()
+      # 
+      # # otherwise, show the new question
+      # else
+      #   doIt()
     
     appendNewQuestion: (question_id) ->
-      console.log 'appendNewQuestion'
-      
       question = new Question
         id: question_id
       

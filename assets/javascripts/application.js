@@ -65,18 +65,10 @@
           $(this.model).addClass('skipped');
           return previous.appendNewQuestion(previous.model.get('id') + 1);
         };
-        if (previous.$('.explanations').length === 0) {
-          return previous.$('.explanations').slideUp(function() {
-            previous.$('.selected').removeClass('selected');
-            return doIt();
-          });
-        } else {
-          return doIt();
-        }
+        return doIt();
       };
       QuestionView.prototype.appendNewQuestion = function(question_id) {
         var question, questionView;
-        console.log('appendNewQuestion');
         question = new Question({
           id: question_id
         });
