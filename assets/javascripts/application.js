@@ -19,6 +19,7 @@
         id: 0,
         text: 'Question',
         answered: false,
+        skipped: false,
         answers: [
           {
             text: 'Answer',
@@ -47,18 +48,64 @@
         'keyup .explanations input': 'answerQuestionWithCustomExplanation'
       };
       QuestionView.prototype.render = function() {
-        $(this.el).attr('id', "question_" + (this.model.get('id')));
+        $(this.el).attr('id', "question_" + (this.model.get('id') + 1));
         $(this.el).append(this.template(this.model.toJSON()));
         return this;
       };
       QuestionView.prototype.skip = function(e) {
+        var doIt, pause, previous;
         console.log("skip: " + (this.model.toJSON()));
-        return e.preventDefault();
+        e.preventDefault();
+        pause = 250;
+        previous = this;
+        this.model.set({
+          skipped: true
+        });
+        doIt = function() {
+          $(this.model).addClass('skipped');
+          return previous.appendNewQuestion(previous.model.get('id') + 1);
+        };
+        if (previous.$('.explanations').length === 0) {
+          return previous.$('.explanations').slideUp(function() {
+            previous.$('.selected').removeClass('selected');
+            return doIt();
+          });
+        } else {
+          return doIt();
+        }
+      };
+      QuestionView.prototype.appendNewQuestion = function(question_id) {
+        var question, questionView;
+        console.log('appendNewQuestion');
+        question = new Question({
+          id: question_id
+        });
+        questionView = new QuestionView({
+          model: question
+        });
+        return $(this.el).parent().append(questionView.render().el);
       };
       QuestionView.prototype.showExplanations = function(e) {
-        console.log("showExplanations: " + (this.model.toJSON()));
-        console.log($(this));
-        return e.preventDefault();
+        var $link, doIt, link, pause, previous;
+        e.preventDefault();
+        pause = 250;
+        previous = this;
+        link = e.srcElement;
+        $link = $(link);
+        doIt = function() {
+          $link.addClass('selected');
+          return $(link.hash).slideDown();
+        };
+        if (previous.$('.selected').length === 0) {
+          return doIt();
+        } else if (!$link.hasClass('.selected')) {
+          return previous.$('.explanations').slideUp(pause, function() {
+            return setTimeout(function() {
+              previous.$('.selected').removeClass('selected');
+              return doIt();
+            }, pause);
+          });
+        }
       };
       QuestionView.prototype.answerQuestion = function(e) {
         console.log("answerQuestion: " + (this.model.toJSON()));

@@ -6,6 +6,7 @@ jQuery ->
       id: 0
       text: 'Question'
       answered: false
+      skipped: false
       answers: [{
         text: 'Answer'
         explanations: [
@@ -31,7 +32,7 @@ jQuery ->
       'keyup .explanations input': 'answerQuestionWithCustomExplanation'
     
     render: =>
-      $(@el).attr('id', "question_#{@model.get('id')}")
+      $(@el).attr('id', "question_#{@model.get('id') + 1}")
       $(@el).append(@template(@model.toJSON()))
       @
     
@@ -39,20 +40,70 @@ jQuery ->
       console.log "skip: #{@model.toJSON()}"
       
       e.preventDefault()
+      pause = 250
+      previous = @
       
-      # get a new question from the server
-      # render the new question
-      # append it to the questions container
+      # Damn handy
+      # [classes...] = e.srcElement.className.split(' ')
+      
+      @model.set
+        skipped: true
+      
+      doIt = ->
+        $(@model).addClass('skipped')
+        previous.appendNewQuestion(previous.model.get('id') + 1)
+      
+      # hide explanations if they're shown
+      if previous.$('.explanations').length is 0
+        previous.$('.explanations').slideUp ->
+          # and remove the selected class from the button
+          previous.$('.selected').removeClass('selected')
+          
+          # skip and show new question
+          doIt()
+      
+      # otherwise, show the new question
+      else
+        doIt()
+    
+    appendNewQuestion: (question_id) ->
+      console.log 'appendNewQuestion'
+      
+      question = new Question
+        id: question_id
+      
+      questionView = new QuestionView
+        model: question
+      
+      $(@el).parent().append(questionView.render().el)
     
     showExplanations: (e) ->
-      console.log "showExplanations: #{@model.toJSON()}"
-      console.log $(@)
-      
       e.preventDefault()
+      pause = 250
+      previous = @
+      link = e.srcElement
+      $link = $(link)
       
-      # add selected class to clicked anchor
-      # slideUp explanations not related to this answer
-      # slideDown associated explanations
+      doIt = ->
+        $link.addClass('selected')
+        $(link.hash).slideDown()
+      
+      # don't pause when an answer hasn't been selected
+      if previous.$('.selected').length is 0
+        doIt()
+      
+      # othwerise, unless selecting the selected
+      else if ! $link.hasClass('.selected')
+        # hide explanations, show appropriate afterwards
+        previous.$('.explanations').slideUp pause, ->
+          # make it feel fluid
+          setTimeout ->
+            # remove selected class from link
+            previous.$('.selected').removeClass('selected')
+            
+            doIt()
+            
+          , pause
     
     answerQuestion: (e) ->
       console.log "answerQuestion: #{@model.toJSON()}"
